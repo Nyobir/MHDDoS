@@ -1,0 +1,13 @@
+name: 'Parser'
+description: 'Parse proxy'
+#inputs:
+#  who-to-greet:  # id of input
+#    description: 'Who to greet'
+#    required: true
+#    default: 'World'
+outputs:
+  proxies: # id of output
+    description: 'Proxies list'
+runs:
+  using: 'node16'
+  main: 'node_modules/.bin/parse'

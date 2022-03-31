@@ -1,0 +1,38 @@
+name: Proxy updater
+
+on:
+  workflow_dispatch:
+
+jobs:
+  parser:
+    runs-on: ubuntu-latest
+    name: Proxy updater
+    steps:
+      - name: Install Node.js
+        run: sudo apt-get update && sudo apt-get install nodejs -y
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cypress install
+        working-directory: ./.github/actions/parxyParser/
+        run: node node_modules/.bin/cypress install
+
+      - name: Parse proxies to file
+        id: hello
+        working-directory: ./.github/actions/parxyParser/
+        env:
+          KEY: ${{ secrets.proxy_key }}
+        run: node node_modules/.bin/cypress run --spec "cypress/integration/index.js" --headless --env proxy_key=$KEY
+
+      - name: Cat env
+        run: cat ./.github/actions/parxyParser/env.txt
+
+      - name: Move to proxy folder
+        run: mv ./.github/actions/parxyParser/prox.txt ./files/paid/http.txt
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Proxy update
+          commit_options: '--no-verify --signoff'
+          file_pattern: ./files/paid/*.txt
