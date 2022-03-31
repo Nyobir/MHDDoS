@@ -18,7 +18,7 @@ context('Cypress TodoMVC test', () => {
         }).then(response => {
             let ave = response.body
             //console.log(ave)
-            //core.setOutput("proxies", ave);
+            core.setOutput("proxies", ave);
             console.log(`The event payload: ${ave}`);
             //cy.writeFile('prox.txt', ave)
         })
