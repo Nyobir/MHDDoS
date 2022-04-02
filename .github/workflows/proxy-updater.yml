@@ -27,9 +27,6 @@ jobs:
           KEY: ${{ secrets.proxy_key }}
         run: node node_modules/.bin/cypress run --spec "cypress/integration/index.js" --headless --env proxy_key=$KEY
 
-      - name: Cat env
-        run: cat ./.github/actions/parxyParser/env.txt
-
       - name: Move to proxy folder
         run: mv ./.github/actions/parxyParser/prox.txt ./files/paid/http.txt
 
