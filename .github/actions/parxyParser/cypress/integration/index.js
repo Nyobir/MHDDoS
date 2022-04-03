@@ -1,15 +1,12 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-
-context('Cypress TodoMVC test', () => {
+context('Cypress proxy parsing', () => {
     beforeEach(() => {
-        // https://on.cypress.io/visit
-        cy.visit('https://hidemy.name/en/proxy-list/?type=h#list')
+        cy.visit('https://hidemy.name/en/proxy-list/?type=hs#list')
     })
 
-    it('test', function () {
-        cy.get('a[href="/api/proxylist.txt?type=h&out=plain&lang=en&utf"]').click()
-        cy.get('input[placeholder="Access code from email"]').type('555241928668692', {force: true})
+    it('parse_proxy_http', function () {
+        cy.contains('.form_checkbox', 'HTTP').find('[type="checkbox"]').check({ force: true })
+        cy.contains('.form_checkbox', 'HTTPS').find('[type="checkbox"]').check({ force: true })
+        cy.get('input[placeholder="Access code from email"]').type(Cypress.env('proxy_key'), {force: true})
         cy.get('button[type="submit"]').click({force: true})
         cy.get('textarea[class="input_text_field textarea ips"]').should('not.to.be.empty')
         cy.request({
@@ -17,16 +14,35 @@ context('Cypress TodoMVC test', () => {
             url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=h`
         }).then(response => {
             let ave = response.body
-            //console.log(ave)
-            core.setOutput("proxies", ave);
-            console.log(`The event payload: ${ave}`);
-            //cy.writeFile('prox.txt', ave)
+            cy.writeFile('prox.txt', ave)
         })
     })
 
-    // more examples
-    //
-    // https://github.com/cypress-io/cypress-example-todomvc
-    // https://github.com/cypress-io/cypress-example-kitchensink
-    // https://on.cypress.io/writing-your-first-test
+    it('parse_proxy_socks', function () {
+        cy.contains('.form_checkbox', 'Socks 4').find('[type="checkbox"]').check({ force: true })
+        cy.get('input[placeholder="Access code from email"]').type(Cypress.env('proxy_key'), {force: true})
+        cy.get('button[type="submit"]').click({force: true})
+        cy.get('textarea[class="input_text_field textarea ips"]').should('not.to.be.empty')
+        cy.request({
+            method: 'GET',
+            url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=h`
+        }).then(response => {
+            let ave = response.body
+            cy.writeFile('socks4.txt', ave)
+        })
+    })
+
+    it('parse_proxy_socks', function () {
+        cy.contains('.form_checkbox', 'Socks 5').find('[type="checkbox"]').check({ force: true })
+        cy.get('input[placeholder="Access code from email"]').type(Cypress.env('proxy_key'), {force: true})
+        cy.get('button[type="submit"]').click({force: true})
+        cy.get('textarea[class="input_text_field textarea ips"]').should('not.to.be.empty')
+        cy.request({
+            method: 'GET',
+            url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=h`
+        }).then(response => {
+            let ave = response.body
+            cy.writeFile('socks5.txt', ave)
+        })
+    })
 })
