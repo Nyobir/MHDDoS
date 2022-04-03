@@ -1,6 +1,6 @@
 context('Cypress proxy parsing', () => {
     beforeEach(() => {
-        cy.visit('https://hidemy.name/en/proxy-list/?type=hs#list')
+        cy.visit('https://hidemy.name/en/proxy-list/#list')
     })
 
     it('parse_proxy_http', function () {
