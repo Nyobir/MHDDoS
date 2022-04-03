@@ -27,11 +27,23 @@ jobs:
           KEY: ${{ secrets.proxy_key }}
         run: node node_modules/.bin/cypress run --spec "cypress/integration/index.js" --headless --env proxy_key=$KEY
 
-      - name: Move to proxy folder
+      - name: Move http to proxy folder
         run: mv ./.github/actions/parxyParser/prox.txt ./files/paid/http.txt
 
-      - name: Add proxydb proxies
+      - name: Move socks4 to proxy folder
+        run: mv ./.github/actions/parxyParser/socks4.txt ./files/paid/sock4.txt
+
+      - name: Move socks5 to proxy folder
+        run: mv ./.github/actions/parxyParser/socks5.txt ./files/paid/sock5.txt
+
+      - name: Add http proxydb proxies
         run: cat ./files/proxydb/http.txt >> ./files/paid/http.txt
+
+      - name: Add socks4 proxydb proxies
+        run: cat ./files/proxydb/sock4.txt >> ./files/paid/sock4.txt
+
+      - name: Add socks5 proxydb proxies
+        run: cat ./files/proxydb/sock5.txt >> ./files/paid/sock5.txt
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
