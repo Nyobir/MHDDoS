@@ -11,7 +11,7 @@ context('Cypress proxy parsing', () => {
         cy.get('textarea[class="input_text_field textarea ips"]').should('not.to.be.empty')
         cy.request({
             method: 'GET',
-            url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=h`
+            url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=hs`
         }).then(response => {
             let ave = response.body
             cy.writeFile('prox.txt', ave)
@@ -25,7 +25,7 @@ context('Cypress proxy parsing', () => {
         cy.get('textarea[class="input_text_field textarea ips"]').should('not.to.be.empty')
         cy.request({
             method: 'GET',
-            url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=h`
+            url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=4`
         }).then(response => {
             let ave = response.body
             cy.writeFile('socks4.txt', ave)
@@ -39,7 +39,7 @@ context('Cypress proxy parsing', () => {
         cy.get('textarea[class="input_text_field textarea ips"]').should('not.to.be.empty')
         cy.request({
             method: 'GET',
-            url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=h`
+            url: `https://hidemy.name/api/proxylist.txt?out=plain&lang=en&utf&type=5`
         }).then(response => {
             let ave = response.body
             cy.writeFile('socks5.txt', ave)
