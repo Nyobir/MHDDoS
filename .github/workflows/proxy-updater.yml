@@ -11,7 +11,7 @@ jobs:
     name: Proxy updater
     steps:
       - name: Install Node.js
-        run: sudo apt-get update && sudo apt-get install nodejs -y
+        run: sudo apt-get update && sudo apt-get install nodejs chromium -y
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
         working-directory: ./.github/actions/parxyParser/
         env:
           KEY: ${{ secrets.proxy_key }}
-        run: node node_modules/.bin/cypress run --spec "cypress/integration/index.js" --headless --env proxy_key=$KEY
+        run: node node_modules/.bin/cypress run --spec "cypress/integration/index.js" --headless --env proxy_key=$KEY -b chromium
 
       - name: Move http to proxy folder
         run: mv ./.github/actions/parxyParser/prox.txt ./files/paid/http.txt
